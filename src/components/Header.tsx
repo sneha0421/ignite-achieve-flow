@@ -10,9 +10,9 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <div className="h-8 w-8 rounded-lg bg-gradient-hero flex items-center justify-center">
-            <span className="text-white font-bold text-sm">SSH</span>
+            <span className="text-white font-bold text-sm">IA</span>
           </div>
-          <h1 className="text-xl font-bold text-foreground">Smart Student Hub</h1>
+          <h1 className="text-xl font-bold text-foreground">Ignite Achieve</h1>
         </div>
 
         {/* Search Bar */}
