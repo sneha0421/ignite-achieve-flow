@@ -3,14 +3,30 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 
 const StudentProfile = () => {
+  const { toast } = useToast();
   const skills = ["React", "Machine Learning", "Python", "UI/UX Design", "Data Science"];
   const achievements = [
     { title: "Dean's List", type: "Academic", verified: true },
     { title: "Hackathon Winner", type: "Competition", verified: true },
     { title: "Research Publication", type: "Research", verified: false },
   ];
+
+  const handleViewPortfolio = () => {
+    toast({
+      title: "Portfolio Generated! ✨",
+      description: "Connect Supabase to generate and export real portfolios from your activities!",
+    });
+  };
+
+  const handleEditProfile = () => {
+    toast({
+      title: "Edit Profile",
+      description: "Connect Supabase to enable profile editing and data persistence!",
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -60,11 +76,19 @@ const StudentProfile = () => {
             </div>
             
             <div className="flex flex-col gap-2">
-              <Button className="bg-gradient-primary border-0">
+              <Button 
+                className="bg-gradient-primary border-0"
+                onClick={handleViewPortfolio}
+              >
                 View Portfolio
                 <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
-              <Button variant="outline">Edit Profile</Button>
+              <Button 
+                variant="outline"
+                onClick={handleEditProfile}
+              >
+                Edit Profile
+              </Button>
             </div>
           </div>
         </CardContent>

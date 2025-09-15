@@ -2,13 +2,20 @@ import { Plus, Filter, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import ActivityPost from "./ActivityPost";
 import achievementImage from "@/assets/achievement-image.jpg";
 import researchImage from "@/assets/research-image.jpg";
 
 const ActivityFeed = () => {
-  const posts = [
+  const { toast } = useToast();
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [showingTrending, setShowingTrending] = useState(false);
+
+  const [posts, setPosts] = useState([
     {
+      id: 1,
       author: {
         name: "Sarah Johnson",
         avatar: "/api/placeholder/50/50",
@@ -33,6 +40,7 @@ const ActivityFeed = () => {
       }
     },
     {
+      id: 2,
       author: {
         name: "Michael Rodriguez",
         avatar: "/api/placeholder/50/50",
@@ -56,6 +64,7 @@ const ActivityFeed = () => {
       }
     },
     {
+      id: 3,
       author: {
         name: "Emily Zhang",
         avatar: "/api/placeholder/50/50",
@@ -78,9 +87,82 @@ const ActivityFeed = () => {
         isLiked: false
       }
     }
-  ];
+  ]);
 
   const trendingTopics = ["Machine Learning", "Internships", "Research", "Hackathons", "Certifications"];
+
+  const handleCreatePost = () => {
+    toast({
+      title: "Create Post",
+      description: "Connect to Supabase to enable post creation and data persistence!",
+    });
+  };
+
+  const handleFilter = () => {
+    setActiveFilter(activeFilter ? null : "filtered");
+    toast({
+      title: activeFilter ? "Filter Cleared" : "Filter Applied",
+      description: "Filter functionality active - connect Supabase for advanced filtering!",
+    });
+  };
+
+  const handleTrending = () => {
+    setShowingTrending(!showingTrending);
+    toast({
+      title: "Trending Mode",
+      description: "Showing trending posts - connect Supabase for real-time trending!",
+    });
+  };
+
+  const handleLoadMore = () => {
+    toast({
+      title: "Load More",
+      description: "Connect Supabase to load more posts from the database!",
+    });
+  };
+
+  const handleTopicClick = (topic: string) => {
+    toast({
+      title: `Filtering by #${topic}`,
+      description: "Topic filtering active - connect Supabase for full search functionality!",
+    });
+  };
+
+  const handleEngagement = (postId: number, type: 'like' | 'comment' | 'share' | 'cheer') => {
+    setPosts(posts.map(post => {
+      if (post.id === postId) {
+        if (type === 'like') {
+          return {
+            ...post,
+            engagement: {
+              ...post.engagement,
+              likes: post.engagement.isLiked ? post.engagement.likes - 1 : post.engagement.likes + 1,
+              isLiked: !post.engagement.isLiked
+            }
+          };
+        }
+        if (type === 'comment') {
+          toast({
+            title: "Comment",
+            description: "Connect Supabase to enable commenting functionality!",
+          });
+        }
+        if (type === 'share') {
+          toast({
+            title: "Shared!",
+            description: "Post shared - connect Supabase to enable real sharing!",
+          });
+        }
+        if (type === 'cheer') {
+          toast({
+            title: "Cheered! 🎉",
+            description: "You cheered this post - connect Supabase to save interactions!",
+          });
+        }
+      }
+      return post;
+    }));
+  };
 
   return (
     <div className="space-y-6">
@@ -95,11 +177,15 @@ const ActivityFeed = () => {
               <Button 
                 variant="outline" 
                 className="w-full justify-start text-muted-foreground h-12 text-left"
+                onClick={handleCreatePost}
               >
                 Share your latest achievement, project, or learning...
               </Button>
             </div>
-            <Button className="bg-gradient-primary border-0 px-8">
+            <Button 
+              className="bg-gradient-primary border-0 px-8"
+              onClick={handleCreatePost}
+            >
               Post
             </Button>
           </div>
@@ -109,11 +195,21 @@ const ActivityFeed = () => {
       {/* Feed Controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button 
+            variant={activeFilter ? "default" : "outline"} 
+            size="sm" 
+            className="gap-2"
+            onClick={handleFilter}
+          >
             <Filter className="h-4 w-4" />
             Filter
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button 
+            variant={showingTrending ? "default" : "outline"} 
+            size="sm" 
+            className="gap-2"
+            onClick={handleTrending}
+          >
             <TrendingUp className="h-4 w-4" />
             Trending
           </Button>
@@ -139,6 +235,7 @@ const ActivityFeed = () => {
                 key={topic} 
                 variant="secondary" 
                 className="cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors"
+                onClick={() => handleTopicClick(topic)}
               >
                 #{topic}
               </Badge>
@@ -149,16 +246,20 @@ const ActivityFeed = () => {
 
       {/* Activity Posts */}
       <div className="space-y-6">
-        {posts.map((post, index) => (
-          <div key={index} className="fade-in">
-            <ActivityPost {...post} />
+        {posts.map((post) => (
+          <div key={post.id} className="fade-in">
+            <ActivityPost {...post} onEngagement={handleEngagement} />
           </div>
         ))}
       </div>
 
       {/* Load More */}
       <div className="text-center py-8">
-        <Button variant="outline" className="px-8">
+        <Button 
+          variant="outline" 
+          className="px-8"
+          onClick={handleLoadMore}
+        >
           Load More Activities
         </Button>
       </div>

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ActivityPostProps {
+  id: number;
   author: {
     name: string;
     avatar: string;
@@ -27,9 +28,10 @@ interface ActivityPostProps {
     shares: number;
     isLiked: boolean;
   };
+  onEngagement?: (postId: number, type: 'like' | 'comment' | 'share' | 'cheer') => void;
 }
 
-const ActivityPost = ({ author, activity, engagement }: ActivityPostProps) => {
+const ActivityPost = ({ id, author, activity, engagement, onEngagement }: ActivityPostProps) => {
   const getActivityIcon = (type: string) => {
     switch (type.toLowerCase()) {
       case 'achievement':
@@ -131,23 +133,37 @@ const ActivityPost = ({ author, activity, engagement }: ActivityPostProps) => {
         <div className="px-6 py-4 border-t border-border/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-              <button className={`engagement-button ${engagement.isLiked ? 'text-red-500' : ''}`}>
+              <button 
+                className={`engagement-button ${engagement.isLiked ? 'text-red-500' : ''}`}
+                onClick={() => onEngagement?.(id, 'like')}
+              >
                 <Heart className={`h-4 w-4 ${engagement.isLiked ? 'fill-current' : ''}`} />
                 <span>{engagement.likes}</span>
               </button>
               
-              <button className="engagement-button">
+              <button 
+                className="engagement-button"
+                onClick={() => onEngagement?.(id, 'comment')}
+              >
                 <MessageCircle className="h-4 w-4" />
                 <span>{engagement.comments}</span>
               </button>
               
-              <button className="engagement-button">
+              <button 
+                className="engagement-button"
+                onClick={() => onEngagement?.(id, 'share')}
+              >
                 <Share2 className="h-4 w-4" />
                 <span>{engagement.shares}</span>
               </button>
             </div>
             
-            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-primary hover:text-primary/80"
+              onClick={() => onEngagement?.(id, 'cheer')}
+            >
               Cheer 🎉
             </Button>
           </div>
