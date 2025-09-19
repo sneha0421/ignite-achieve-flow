@@ -3,10 +3,40 @@ import Header from "@/components/Header";
 import StudentProfile from "@/components/StudentProfile";
 import ActivityFeed from "@/components/ActivityFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Activity, Users, BarChart } from "lucide-react";
+import { User, Activity, Users, BarChart, Plus, FileText, Target, UserPlus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("feed");
+  const { toast } = useToast();
+
+  const handleCreatePost = () => {
+    toast({
+      title: "Create Activity Post",
+      description: "Post creation feature will be available once Supabase is connected!",
+    });
+  };
+
+  const handleViewPortfolio = () => {
+    toast({
+      title: "Portfolio Viewer",
+      description: "Portfolio features require Supabase connection for data storage!",
+    });
+  };
+
+  const handleSetGoals = () => {
+    toast({
+      title: "Goal Setting",
+      description: "Goal tracking will be enabled with Supabase database integration!",
+    });
+  };
+
+  const handleFindGroups = () => {
+    toast({
+      title: "Study Groups",
+      description: "Group discovery requires Supabase for user matching and data!",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -69,17 +99,33 @@ const Index = () => {
               <div className="academic-card p-6">
                 <h3 className="font-semibold mb-4 text-foreground">Quick Actions</h3>
                 <div className="space-y-3">
-                  <button className="w-full text-left p-3 rounded-lg hover:bg-muted/50 transition-colors text-sm">
-                    📝 Create Activity Post
+                  <button 
+                    onClick={handleCreatePost}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-accent/10 hover:text-accent transition-colors text-sm border border-transparent hover:border-accent/20"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Create Activity Post
                   </button>
-                  <button className="w-full text-left p-3 rounded-lg hover:bg-muted/50 transition-colors text-sm">
-                    📊 View Portfolio
+                  <button 
+                    onClick={handleViewPortfolio}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-accent/10 hover:text-accent transition-colors text-sm border border-transparent hover:border-accent/20"
+                  >
+                    <FileText className="h-4 w-4" />
+                    View Portfolio
                   </button>
-                  <button className="w-full text-left p-3 rounded-lg hover:bg-muted/50 transition-colors text-sm">
-                    🎯 Set Goals
+                  <button 
+                    onClick={handleSetGoals}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-accent/10 hover:text-accent transition-colors text-sm border border-transparent hover:border-accent/20"
+                  >
+                    <Target className="h-4 w-4" />
+                    Set Goals
                   </button>
-                  <button className="w-full text-left p-3 rounded-lg hover:bg-muted/50 transition-colors text-sm">
-                    👥 Find Study Groups
+                  <button 
+                    onClick={handleFindGroups}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-accent/10 hover:text-accent transition-colors text-sm border border-transparent hover:border-accent/20"
+                  >
+                    <UserPlus className="h-4 w-4" />
+                    Find Study Groups
                   </button>
                 </div>
               </div>
