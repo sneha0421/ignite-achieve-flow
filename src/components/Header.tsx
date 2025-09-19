@@ -1,4 +1,4 @@
-import { Bell, Search, Plus, User, Settings } from "lucide-react";
+import { Bell, Search, Plus, User, Settings, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -39,8 +39,9 @@ const Header = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-3">
-          <div className="h-8 w-8 rounded-lg bg-gradient-hero flex items-center justify-center">
-            <span className="text-white font-bold text-sm">IA</span>
+          <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-accent via-accent/80 to-accent/60 flex items-center justify-center shadow-lg shadow-accent/25 group hover:shadow-accent/40 transition-all duration-300 hover:scale-105">
+            <Flame className="h-6 w-6 text-white drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
           </div>
           <h1 className="text-xl font-bold text-foreground">Ignite Achieve</h1>
         </div>
